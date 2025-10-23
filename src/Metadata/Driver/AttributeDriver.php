@@ -44,7 +44,12 @@ class AttributeDriver implements AdvancedDriverInterface
         }
 
         foreach ($properties as $property) {
+            // Support both new Attribute\ and deprecated Annotation\ namespaces
             $uploadableField = $this->reader->getPropertyAttribute($property, UploadableField::class);
+            if (null === $uploadableField) {
+                // Fallback to deprecated Annotation namespace
+                $uploadableField = $this->reader->getPropertyAttribute($property, 'Vich\UploaderBundle\Mapping\Annotation\UploadableField');
+            }
             if (!$uploadableField instanceof UploadableField) {
                 continue;
             }

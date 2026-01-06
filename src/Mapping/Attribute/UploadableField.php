@@ -19,7 +19,7 @@ use Vich\UploaderBundle\Mapping\AttributeInterface;
  */
 >>>>>>>> 1adff27 (Add deprecation layer for Annotation to Attribute migration):src/Mapping/Annotation/UploadableField.php
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
-final class UploadableField implements AttributeInterface
+final readonly class UploadableField implements AttributeInterface
 {
     public function __construct(
         private readonly string $mapping,

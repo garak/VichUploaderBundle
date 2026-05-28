@@ -2,6 +2,7 @@
 
 namespace Vich\UploaderBundle\Naming;
 
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
 
 /**
@@ -9,6 +10,7 @@ use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
  *
  * @author Guillaume Sainthillier <guillaume@silarhi.fr>
  */
+#[AsTaggedItem(index: 'vich_uploader.namer_directory_chain')]
 final class ChainDirectoryNamer implements DirectoryNamerInterface, ConfigurableInterface
 {
     /** @var array<DirectoryNamerInterface> */

@@ -138,7 +138,7 @@ final class VichUploaderExtension extends Extension
 
     protected function registerAttributeStrategy(ContainerBuilder $container): void
     {
-        if (!$container->has('vich_uploader.metadata_driver.attribute') && !$container->has('vich_uploader.metadata_driver.attribute')) {
+        if (!$container->has('vich_uploader.metadata_driver.attribute')) {
             return;
         }
 
@@ -146,16 +146,6 @@ final class VichUploaderExtension extends Extension
             'vich_uploader.metadata.reader',
             $container->getDefinition('vich_uploader.metadata.attribute_reader')
         );
-    }
-
-    /**
-     * @deprecated since 2.9, use registerAttributeStrategy() instead
-     */
-    protected function registerAnnotationStrategy(ContainerBuilder $container, array $config): void
-    {
-        trigger_deprecation('vich/uploader-bundle', '2.9', 'Method "%s" is deprecated, use "registerAttributeStrategy()" instead.', __METHOD__);
-
-        $this->registerAttributeStrategy($container, $config);
     }
 
     protected function registerCacheStrategy(ContainerBuilder $container, array $config): void

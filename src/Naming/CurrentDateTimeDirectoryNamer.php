@@ -2,6 +2,7 @@
 
 namespace Vich\UploaderBundle\Naming;
 
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
 use Vich\UploaderBundle\Util\PropertyPathUtils;
@@ -11,6 +12,7 @@ use Vich\UploaderBundle\Util\PropertyPathUtils;
  *
  * @author Vyacheslav Startsev <vyacheslav.startsev@gmail.com>
  */
+#[AsTaggedItem(index: 'vich_uploader.namer_directory_current_date_time')]
 final class CurrentDateTimeDirectoryNamer implements DirectoryNamerInterface, ConfigurableInterface
 {
     private string $dateTimeFormat = 'Y/m/d';

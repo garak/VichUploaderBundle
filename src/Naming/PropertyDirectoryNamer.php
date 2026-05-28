@@ -2,6 +2,7 @@
 
 namespace Vich\UploaderBundle\Naming;
 
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -14,6 +15,7 @@ use Vich\UploaderBundle\Util\Transliterator;
  *
  * @author Raynald Coupé <raynald@easi-services.fr>
  */
+#[AsTaggedItem(index: 'vich_uploader.namer_directory_property')]
 final class PropertyDirectoryNamer implements DirectoryNamerInterface, ConfigurableInterface
 {
     private ?string $propertyPath = null;

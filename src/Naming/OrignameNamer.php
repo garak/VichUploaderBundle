@@ -2,6 +2,7 @@
 
 namespace Vich\UploaderBundle\Naming;
 
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\FileAbstraction\ReplacingFile;
 use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
@@ -10,6 +11,7 @@ use Vich\UploaderBundle\Util\Transliterator;
 /**
  * @author Ivan Borzenkov <ivan.borzenkov@gmail.com>
  */
+#[AsTaggedItem(index: 'vich_uploader.namer_origname')]
 final class OrignameNamer implements NamerInterface, ConfigurableInterface
 {
     use Polyfill\FileExtensionTrait;

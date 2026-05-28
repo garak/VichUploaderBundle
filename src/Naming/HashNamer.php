@@ -2,6 +2,7 @@
 
 namespace Vich\UploaderBundle\Naming;
 
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
 
 /**
@@ -9,6 +10,7 @@ use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
  *
  * @author Konstantin Myakshin <koc-dp@yandex.ru>
  */
+#[AsTaggedItem(index: 'vich_uploader.namer_hash')]
 class HashNamer implements NamerInterface, ConfigurableInterface
 {
     use Polyfill\FileExtensionTrait;

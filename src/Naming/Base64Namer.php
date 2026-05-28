@@ -2,6 +2,7 @@
 
 namespace Vich\UploaderBundle\Naming;
 
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
 
 /**
@@ -10,6 +11,7 @@ use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
  *
  * @author Keleti Márton <tejes@hac.hu>
  */
+#[AsTaggedItem(index: 'vich_uploader.namer_base64')]
 class Base64Namer implements NamerInterface, ConfigurableInterface
 {
     use Polyfill\FileExtensionTrait;

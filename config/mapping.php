@@ -8,7 +8,6 @@ use Metadata\Driver\FileLocator;
 use Metadata\MetadataFactory;
 use Vich\UploaderBundle\Metadata\CacheWarmer;
 use Vich\UploaderBundle\Metadata\Driver\AttributeDriver;
-use Vich\UploaderBundle\Metadata\Driver\AttributeDriver;
 use Vich\UploaderBundle\Metadata\Driver\AttributeReader;
 use Vich\UploaderBundle\Metadata\Driver\XmlDriver;
 use Vich\UploaderBundle\Metadata\Driver\YamlDriver;
@@ -31,11 +30,6 @@ return static function (ContainerConfigurator $container): void {
     $services->set('vich_uploader.metadata_driver.attribute', AttributeDriver::class)
         ->arg('$reader', service('vich_uploader.metadata.reader'))
         ->arg('$managerRegistryList', null); // replaced by compiler pass
-
-    $services->set('vich_uploader.metadata_driver.attribute', AttributeDriver::class)
-        ->arg('$reader', service('vich_uploader.metadata.reader'))
-        ->arg('$managerRegistryList', null) // replaced by compiler pass
-        ->deprecate('vich/uploader-bundle', '2.9', 'The "%service_id%" service is deprecated, use "vich_uploader.metadata_driver.attribute" instead.');
 
     $services->set('vich_uploader.metadata_driver.xml', XmlDriver::class)
         ->args([

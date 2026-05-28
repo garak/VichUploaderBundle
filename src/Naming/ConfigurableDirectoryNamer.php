@@ -2,11 +2,13 @@
 
 namespace Vich\UploaderBundle\Naming;
 
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
 
 /**
  * Directory namer that can create subfolder which path is given in the directory namer's options.
  */
+#[AsTaggedItem(index: 'vich_uploader.namer_directory_configurable')]
 class ConfigurableDirectoryNamer implements DirectoryNamerInterface, ConfigurableInterface
 {
     private string $directoryPath = '';

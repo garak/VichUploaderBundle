@@ -2,6 +2,7 @@
 
 namespace Vich\UploaderBundle\Naming;
 
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
 use Vich\UploaderBundle\Util\Transliterator;
 
@@ -11,6 +12,7 @@ use Vich\UploaderBundle\Util\Transliterator;
  *
  * @author Massimiliano Arione <garakkio@gmail.com>
  */
+#[AsTaggedItem(index: 'vich_uploader.namer_smart_unique')]
 final class SmartUniqueNamer implements NamerInterface, ConfigurableInterface
 {
     use Polyfill\FileExtensionTrait;

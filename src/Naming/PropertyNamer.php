@@ -2,6 +2,7 @@
 
 namespace Vich\UploaderBundle\Naming;
 
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Vich\UploaderBundle\Exception\NameGenerationException;
@@ -11,6 +12,7 @@ use Vich\UploaderBundle\Util\Transliterator;
 /**
  * @author Kévin Gomez <contact@kevingomez.fr>
  */
+#[AsTaggedItem(index: 'vich_uploader.namer_property')]
 final class PropertyNamer implements NamerInterface, ConfigurableInterface
 {
     use Polyfill\FileExtensionTrait;

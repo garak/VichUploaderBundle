@@ -2,11 +2,13 @@
 
 namespace Vich\UploaderBundle\Naming;
 
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
 
 /**
  * @author Emmanuel Vella <vella.emmanuel@gmail.com>
  */
+#[AsTaggedItem(index: 'vich_uploader.namer_uniqid')]
 final class UniqidNamer implements NamerInterface, ConfigurableInterface
 {
     use Polyfill\FileExtensionTrait;

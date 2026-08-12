@@ -84,10 +84,7 @@ final class GaufretteStorage extends AbstractStorage
                     // Try to get the last modified timestamp
                     $lastModifiedAt = null;
                     try {
-                        $lm = $filesystem->mtime($key);
-                        if (null !== $lm) {
-                            $lastModifiedAt = (int) $lm;
-                        }
+                        $lastModifiedAt = (int) $filesystem->mtime($key);
                     } catch (\Exception) {
                         // Timestamp not available for this adapter
                     }

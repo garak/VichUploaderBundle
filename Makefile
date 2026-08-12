@@ -12,6 +12,7 @@ tests:
 test:
 	make vichuploader-image
 	docker run dustin10/vichuploader_php${TARGET} -d date.timezone='UTC' vendor/bin/phpunit -c ./ ${TEST}
+
 # Stops and removes all containers and removes all images
 .PHONY: destroy-environment
 destroy-environment:

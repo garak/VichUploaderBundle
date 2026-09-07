@@ -116,4 +116,4 @@ class RemoveFileEventSubscriber implements EventSubscriberInterface
 
 ## That was it!
 
-Check out the docs for information on how to use the bundle! [Return to the index.](/docs/index.md)
+Check out the docs for information on how to use the bundle! [Return to the index.](../../index.md)

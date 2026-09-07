@@ -1,3 +1,17 @@
+# Upgrading from v2.9 to v3.0
+
+## Breaking Changes
+
+* Minimum PHP version raised from `^8.1` to `^8.3`.
+* Minimum Symfony version raised: support for `5.4` and `7.0`-`7.3` has been dropped. Symfony `6.4`, `7.4` and `8.0` are now required.
+* The deprecated `Vich\UploaderBundle\Mapping\Annotation` namespace has been removed. Use `Vich\UploaderBundle\Mapping\Attribute` instead.
+* The deprecated `AnnotationInterface` has been removed. Use `AttributeInterface` instead.
+* Support for annotations has been removed entirely). Use PHP attributes instead.
+* `AttributeReader` deprecated methods have been removed: use `getClassAttribute()` instead of `getClassAnnotation()`, `getPropertyAttribute()` instead of `getPropertyAnnotation()`.
+* `NamerInterface::name()` and `DirectoryNamerInterface::directoryName()` parameter type widened from `object` to `object|array`. Custom namers that type-hint the parameter as `object` must update their signature to match.
+* `PropertyMappingResolverInterface::resolve()` (and the `PropertyMappingResolver` implementation) now returns `PropertyMappingInterface` instead of the concrete `PropertyMapping` class. Code that type-hints against `PropertyMapping` directly should switch to `PropertyMappingInterface`.
+* Several internal classes are now `final` and are only meant to be extended through interfaces: `PropertyMapping`, `PropertyMappingFactory`, `MetadataReader` and `AttributeReader`. New interfaces are provided as extension points: `PropertyMappingInterface`, `PropertyMappingFactoryInterface`, `MetadataReaderInterface` and `UploadHandlerInterface`. Code that extended or mocked these concrete classes should depend on the corresponding interface instead.
+
 # Upgrading from v2.8 to v2.9
 
 ## Deprecations
@@ -13,7 +27,7 @@
 
 # Upgrading from v2.7 to v2.8
 
-* Namers are not public anymore. If you use a custom namer, you can now make it private.
+* Namers are not public anymore. If you uses a custom namer, you can now make it private.
 
 # Upgrading from v2.6 to v2.7
 

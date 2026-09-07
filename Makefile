@@ -1,11 +1,11 @@
 #/bin/bash
 
-TARGET?=81
+TARGET?=83
 
 .PHONY: tests
 tests:
 	make vichuploader-image
-	docker run dustin10/vichuploader_php${TARGET} -d date.timezone='UTC' vendor/bin/phpunit
+	docker run dustin10/vichuploader_php${TARGET} -d date.timezone='UTC' vendor/bin/phpunit --display-phpunit-notices
 
 # Makes it easy to run a single test file. Example to run IndexTest.php: make test TEST="IndexTest.php"
 .PHONY: test

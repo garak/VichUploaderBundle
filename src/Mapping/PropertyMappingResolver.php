@@ -3,6 +3,7 @@
 namespace Vich\UploaderBundle\Mapping;
 
 use Vich\UploaderBundle\Exception\MappingNotFoundException;
+use Vich\UploaderBundle\Naming\ChainDirectoryNamer;
 use Vich\UploaderBundle\Naming\ConfigurableInterface;
 use Vich\UploaderBundle\Naming\DirectoryNamerInterface;
 use Vich\UploaderBundle\Naming\NamerInterface;
@@ -13,17 +14,17 @@ use Vich\UploaderBundle\Util\ClassUtils;
  *
  * @internal
  */
-final class PropertyMappingResolver implements PropertyMappingResolverInterface
+final readonly class PropertyMappingResolver implements PropertyMappingResolverInterface
 {
     /**
      * @param iterable<string, NamerInterface>          $namers
      * @param iterable<string, DirectoryNamerInterface> $dirNamers
      */
     public function __construct(
-        private readonly iterable $namers,
-        private readonly iterable $dirNamers,
-        private readonly array $mappings,
-        private readonly ?string $defaultFilenameAttributeSuffix = '_name'
+        private iterable $namers,
+        private iterable $dirNamers,
+        private array $mappings,
+        private ?string $defaultFilenameAttributeSuffix = '_name'
     ) {
     }
 
@@ -70,6 +71,20 @@ final class PropertyMappingResolver implements PropertyMappingResolverInterface
             $namerConfig = $config['directory_namer'];
             $namer = $this->getDirectoryNamer($mappingData['mapping'], $namerConfig['service']);
 
+            // Handle ChainDirectoryNamer specially - resolve nested namers
+            if ($namer instanceof ChainDirectoryNamer && !empty($namerConfig['options']['namers'])) {
+                $chainedNamers = [];
+                foreach ($namerConfig['options']['namers'] as $nestedConfig) {
+                    $nestedNamer = $this->getDirectoryNamer($mappingData['mapping'], $nestedConfig['service']);
+                    if (!empty($nestedConfig['options']) && $nestedNamer instanceof ConfigurableInterface) {
+                        $nestedNamer->configure($nestedConfig['options']);
+                    }
+                    $chainedNamers[] = $nestedNamer;
+                }
+                $namer->setNamers($chainedNamers);
+            }
+
+            // Configure the namer itself (e.g., separator option for ChainDirectoryNamer)
             if (!empty($namerConfig['options'])) {
                 if (!$namer instanceof ConfigurableInterface) {
                     throw new \LogicException(\sprintf('Namer %s can not receive options as it does not implement ConfigurableInterface.', $namerConfig['service']));

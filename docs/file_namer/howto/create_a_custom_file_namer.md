@@ -7,8 +7,6 @@ free to get any information from it to create the name, or inject any other
 service you require.
 
 > [!NOTE]
-> The `name` method in the interface accepts only objects, but your namer should accept both
-> objects and arrays. The interface method signature will be fixed in the next major version.
 > The name returned should include the file extension as well. This can easily
 > be retrieved from the `UploadedFile` instance using the `getExtension` or `guessExtension`
 > depending on what version of PHP you are running.
@@ -22,12 +20,12 @@ Here's a simple example:
 
 namespace App\Naming;
 
-use Vich\UploaderBundle\Mapping\PropertyMapping;
+use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
 use Vich\UploaderBundle\Naming\NamerInterface;
 
 class MyNamer implements NamerInterface
 {
-    public function name(object|array $object, PropertyMapping $mapping): string
+    public function name(object|array $object, PropertyMappingInterface $mapping): string
     {
         $file = $mapping->getFile($object);
         $originalName = $file->getClientOriginalName();
@@ -48,7 +46,7 @@ implement the `Vich\UploaderBundle\Naming\ConfigurableInterface`:
 
 namespace App\Naming;
 
-use Vich\UploaderBundle\Mapping\PropertyMapping;
+use Vich\UploaderBundle\Mapping\PropertyMappingInterface;
 use Vich\UploaderBundle\Naming\ConfigurableInterface;
 use Vich\UploaderBundle\Naming\NamerInterface;
 
@@ -65,7 +63,7 @@ class MyConfigurableNamer implements NamerInterface, ConfigurableInterface
         $this->prefix = $options['prefix'] ?? $this->prefix;
     }
 
-    public function name(object|array $object, PropertyMapping $mapping): string
+    public function name(object|array $object, PropertyMappingInterface $mapping): string
     {
         $file = $mapping->getFile($object);
         $extension = $this->getExtensionWithOption($file, $this->keepExtension);
@@ -107,4 +105,4 @@ Where `App\Naming\MyNamer` is the configured service class.
 ## That was it!
 
 Check out the docs for information on how to use the bundle! [Return to the
-index.](/docs/index.md)
+index.](../../index.md)

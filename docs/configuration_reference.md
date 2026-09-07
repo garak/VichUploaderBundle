@@ -21,7 +21,7 @@ vich_uploader:
             directory_namer: ~           # specify a directory namer service for this entity, null default
             delete_on_remove: true       # determine whether to delete file upon removal of entity
             erase_fields: true           # set to false if you have non-nullable fields for mapping
-            delete_on_update: true       # determine wheter to delete the file upon update of entity
+            delete_on_update: true       # determine whether to delete the file upon update of entity
             inject_on_load: false        # determine whether to inject a File instance upon load
             namer_keep_extension: false  # force namers to keep original file extension
                                          # WARNING: Always validate file extensions when set to true to prevent security risks!

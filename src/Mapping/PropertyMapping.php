@@ -11,11 +11,9 @@ use Vich\UploaderBundle\Naming\NamerInterface;
 use Vich\UploaderBundle\Util\PropertyPathUtils;
 
 /**
- * PropertyMapping.
- *
  * @author Dustin Dobervich <ddobervich@gmail.com>
  */
-final class PropertyMapping
+final class PropertyMapping implements PropertyMappingInterface
 {
     private const UNKNOWN_PROPERTY_MESSAGE = 'Unknown property %s';
     private const SETTER_PREFIX = 'set';
@@ -59,69 +57,26 @@ final class PropertyMapping
         );
     }
 
-    /**
-     * Gets the file property value for the given object.
-     *
-     * @param object $obj The object
-     *
-     * @return \Symfony\Component\HttpFoundation\File\UploadedFile|\Vich\UploaderBundle\FileAbstraction\ReplacingFile|null The file
-     *
-     * @throws \InvalidArgumentException
-     */
     public function getFile(object $obj): ?File
     {
         return $this->readProperty($obj, 'file');
     }
 
-    /**
-     * Modifies the file property value for the given object.
-     *
-     * @param object $obj  The object
-     * @param File   $file The new file
-     *
-     * @throws \InvalidArgumentException
-     * @throws \TypeError
-     */
     public function setFile(object $obj, File $file): void
     {
         $this->writeProperty($obj, 'file', $file);
     }
 
-    /**
-     * Gets the fileName property of the given object.
-     *
-     * @param object|array $obj The object or array
-     *
-     * @return string|null The filename
-     *
-     * @throws \InvalidArgumentException
-     */
     public function getFileName(object|array $obj): ?string
     {
         return $this->readProperty($obj, 'name');
     }
 
-    /**
-     * Modifies the fileName property of the given object.
-     *
-     * @param object $obj The object
-     *
-     * @throws \InvalidArgumentException
-     * @throws \TypeError
-     */
     public function setFileName(object $obj, string $value): void
     {
         $this->writeProperty($obj, 'name', $value);
     }
 
-    /**
-     * Removes value for each file-related property of the given object.
-     *
-     * @param object $obj The object
-     *
-     * @throws \InvalidArgumentException
-     * @throws \TypeError
-     */
     public function erase(object $obj): void
     {
         if (\is_array($this->mapping) && isset($this->mapping['erase_fields']) && false === $this->mapping['erase_fields']) {
@@ -209,16 +164,6 @@ final class PropertyMapping
         );
     }
 
-    /**
-     * Reads property of the given object.
-     *
-     * @internal
-     *
-     * @param object|array $obj      The object or array from which read
-     * @param string       $property The property to read
-     *
-     * @throws \InvalidArgumentException
-     */
     public function readProperty(object|array $obj, string $property): mixed
     {
         if (!\array_key_exists($property, $this->propertyPaths)) {
@@ -235,18 +180,6 @@ final class PropertyMapping
         return $this->getAccessor()->getValue($obj, $propertyPath);
     }
 
-    /**
-     * Modifies property of the given object.
-     *
-     * @param object $obj      The object to which write
-     * @param string $property The property to write
-     * @param mixed  $value    The value which should be written
-     *
-     * @throws \InvalidArgumentException
-     * @throws \TypeError
-     *
-     * @internal
-     */
     public function writeProperty(object $obj, string $property, mixed $value): void
     {
         if (!\array_key_exists($property, $this->propertyPaths)) {
@@ -262,36 +195,26 @@ final class PropertyMapping
         $this->getAccessor()->setValue($obj, $propertyPath, $value);
     }
 
-    /**
-     * Gets the configured file property name.
-     *
-     * @return string The name
-     */
     public function getFilePropertyName(): string
     {
         return $this->propertyPaths['file'];
     }
 
-    /**
-     * Gets the configured filename property name.
-     *
-     * @return string The name
-     */
     public function getFileNamePropertyName(): string
     {
         return $this->propertyPaths['name'];
     }
 
     /**
-     * Gets the configured namer.
+     * Get the configured namer.
      */
-    public function getNamer(): ?NamerInterface
+    public function getNamer(): NamerInterface
     {
-        return $this->namer;
+        return $this->namer ?? throw new \UnexpectedValueException('No namer has been configured.');
     }
 
     /**
-     * Sets the namer.
+     * Set the namer.
      */
     public function setNamer(NamerInterface $namer): void
     {
@@ -299,7 +222,7 @@ final class PropertyMapping
     }
 
     /**
-     * Determines if the mapping has a custom namer configured.
+     * Determine if the mapping has a custom namer configured.
      */
     public function hasNamer(): bool
     {
@@ -307,7 +230,7 @@ final class PropertyMapping
     }
 
     /**
-     * Gets the configured directory namer.
+     * Get the configured directory namer.
      */
     public function getDirectoryNamer(): ?DirectoryNamerInterface
     {
@@ -315,7 +238,7 @@ final class PropertyMapping
     }
 
     /**
-     * Sets the directory namer.
+     * Set the directory namer.
      */
     public function setDirectoryNamer(DirectoryNamerInterface $directoryNamer): void
     {
@@ -323,7 +246,7 @@ final class PropertyMapping
     }
 
     /**
-     * Determines if the mapping has a custom directory namer configured.
+     * Determine if the mapping has a custom directory namer configured.
      */
     public function hasDirectoryNamer(): bool
     {
@@ -331,7 +254,7 @@ final class PropertyMapping
     }
 
     /**
-     * Sets the configured configuration mapping.
+     * Set the configured configuration mapping.
      *
      * @param array $mapping The mapping;
      */
@@ -340,41 +263,24 @@ final class PropertyMapping
         $this->mapping = $mapping;
     }
 
-    /**
-     * Gets the configured configuration mapping name.
-     */
     public function getMappingName(): string
     {
         return $this->mappingName;
     }
 
     /**
-     * Sets the configured configuration mapping name.
+     * Set the configured configuration mapping name.
      */
     public function setMappingName(string $mappingName): void
     {
         $this->mappingName = $mappingName;
     }
 
-    /**
-     * Gets the upload name for a given file (uses The file namers).
-     *
-     * @return string The upload name
-     */
     public function getUploadName(object $obj): string
     {
-        if (!$this->hasNamer()) {
-            throw new \RuntimeException('A namer must be configured.');
-        }
-
         return $this->getNamer()->name($obj, $this);
     }
 
-    /**
-     * Gets the upload directory for a given file (uses the directory namers).
-     *
-     * @return string|null The upload directory
-     */
     public function getUploadDir(object|array $obj): ?string
     {
         if (!$this->hasDirectoryNamer()) {
@@ -387,19 +293,11 @@ final class PropertyMapping
         return $dir ? \rtrim($dir, '/\\') : $dir;
     }
 
-    /**
-     * Gets the base upload directory.
-     *
-     * @return string The configured upload directory
-     */
     public function getUploadDestination(): string
     {
         return $this->mapping['upload_destination'];
     }
 
-    /**
-     * Get uri prefix.
-     */
     public function getUriPrefix(): string
     {
         return $this->mapping['uri_prefix'];
